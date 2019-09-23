@@ -12,7 +12,8 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".BmiDetailsActivity">
+        <activity android:name=".BmiDetailsActivity"
+            android:theme="@style/NonMaterialAppTheme">
             <intent-filter>
 
             <action android:name="android.intent.action.MAIN" />
