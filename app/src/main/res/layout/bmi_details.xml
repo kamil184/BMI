@@ -20,9 +20,15 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/gradient"
-            app:navigationIcon="@drawable/back"
-            >
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:src="@drawable/back" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,12 +92,12 @@
                 app:layout_constraintVertical_bias="0.957" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/user_msg"
                 style="@style/Widget.AppCompat.TextView.SpinnerItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="Hello Olivia, you are normal"
+                android:text="@string/user_msg"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
@@ -109,7 +115,7 @@
                 android:layout_height="1dp"
                 android:alpha="0.5"
                 android:background="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintBottom_toTopOf="@+id/user_msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2"
@@ -121,7 +127,7 @@
                 android:layout_height="1dp"
                 android:alpha="0.5"
                 android:background="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintBottom_toTopOf="@+id/user_msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,21 +149,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
             <TextView
-                android:id="@+id/normalRange"
+                android:id="@+id/bmiRange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-condensed-light"
-                android:text="Normal BMI range: 18.5 kg/m2 - 25 kg/m2"
+                android:text="@string/bmi_range_msg"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                app:layout_constraintVertical_bias="0.0" />
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/user_msg" />
 
             <TextView
                 android:id="@+id/ponderalRage"
@@ -171,7 +174,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/normalRange"
+                app:layout_constraintTop_toBottomOf="@+id/bmiRange"
                 app:layout_constraintVertical_bias="0.0" />
 
             <View
@@ -180,7 +183,7 @@
                 android:layout_height="2dp"
                 android:alpha="0.5"
                 android:background="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintBottom_toTopOf="@+id/user_msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -188,7 +191,7 @@
                 app:layout_constraintVertical_bias="0.75" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/int_part_of_BMI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="75dp"
@@ -202,7 +205,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/fractional_part_of_BMI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="95dp"
@@ -214,7 +217,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/divider3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView5" />
+                app:layout_constraintStart_toEndOf="@+id/int_part_of_BMI" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

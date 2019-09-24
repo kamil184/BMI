@@ -4,5 +4,6 @@
     <string name="enter_personal_detail">Enter Personal Detail</string>
     <string name="name">Name</string>
     <string name="calculate_your_body_mass_index">Calculate Your Body Mass Index</string>
-
+    <string name="user_msg">Hello %s,you have %s</string>
+    <string name="bmi_range_msg">%s BMI range: %s</string>
 </resources>
