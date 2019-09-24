@@ -63,11 +63,47 @@
         android:textColor="@android:color/secondary_text_dark_nodisable"
         android:textSize="18sp" />
 
-    <NumberPicker
-        android:id="@+id/number_picker"
-        style="@android:style/Widget.Material.Light.NumberPicker"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <NumberPicker
+                android:id="@+id/weight_picker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@color/colorAccent"
+                android:theme="@style/MyNumberPickerTheme" />
+
+            <NumberPicker
+                android:id="@+id/height_picker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/MyNumberPickerTheme" />
+
+            <NumberPicker
+                android:id="@+id/gender_picker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/MyNumberPickerTheme" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_weight="1"
+            android:background="@drawable/calculate" />
+    </LinearLayout>
 
 
 </LinearLayout>
