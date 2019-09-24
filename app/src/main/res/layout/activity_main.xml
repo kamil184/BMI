@@ -97,12 +97,14 @@
 
         </LinearLayout>
 
-        <Button
+        <ImageButton
             android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="88dp"
+            android:layout_width="320dp"
+            android:layout_height="69dp"
             android:layout_weight="1"
-            android:background="@drawable/calculate" />
+            android:layout_marginTop="16dp"
+            android:background="@drawable/calculate"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 
