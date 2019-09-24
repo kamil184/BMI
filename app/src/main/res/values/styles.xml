@@ -5,7 +5,6 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@android:color/secondary_text_dark_nodisable</item>
         <item name="android:numberPickerStyle">@style/MyNumberPickerTheme</item>
     </style>
 
