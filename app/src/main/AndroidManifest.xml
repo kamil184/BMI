@@ -20,7 +20,6 @@
         </activity>
         <activity android:name=".BmiDetailsActivity"
             android:theme="@style/NonMaterialAppTheme">
-
         </activity>
     </application>
 
