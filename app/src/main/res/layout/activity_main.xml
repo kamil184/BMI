@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
 
     <RelativeLayout
         android:id="@+id/appBar"
@@ -66,8 +68,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
         android:layout_gravity="center"
+        android:layout_marginTop="75dp"
         android:text="@string/calculate_your_body_mass_index"
         android:textColor="@android:color/secondary_text_dark_nodisable"
         android:textSize="18sp" />
@@ -110,10 +112,10 @@
             android:id="@+id/calculate"
             android:layout_width="320dp"
             android:layout_height="69dp"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:background="@drawable/calculate"
-            android:layout_gravity="center"/>
+            android:layout_weight="1"
+            android:background="@drawable/calculate" />
     </LinearLayout>
 
 
