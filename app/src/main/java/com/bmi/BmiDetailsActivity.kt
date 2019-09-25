@@ -6,6 +6,9 @@ import android.widget.TextView
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import kotlin.math.roundToInt
 
 
@@ -17,6 +20,7 @@ class BmiDetailsActivity : AppCompatActivity() {
     lateinit var userMsg: TextView
     lateinit var rangeMsg: TextView
     lateinit var PI: TextView
+    lateinit var mAdView : AdView
 
 
        override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,11 @@ class BmiDetailsActivity : AppCompatActivity() {
             )
 
             setContentView(R.layout.bmi_details)
+
+           MobileAds.initialize(this) {}
+           mAdView = findViewById(R.id.adView)
+           val adRequest = AdRequest.Builder().build()
+           mAdView.loadAd(adRequest)
 
             intBMI = findViewById(R.id.int_part_of_BMI)
             fractBMI = findViewById(R.id.fractional_part_of_BMI)

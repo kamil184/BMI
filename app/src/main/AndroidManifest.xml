@@ -22,6 +22,10 @@
             android:theme="@style/NonMaterialAppTheme">
 
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2798384536670555~6499862963"/>
     </application>
 
 </manifest>
