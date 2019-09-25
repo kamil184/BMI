@@ -16,6 +16,7 @@ class BmiDetailsActivity : AppCompatActivity() {
     lateinit var fractBMI: TextView
     lateinit var userMsg: TextView
     lateinit var rangeMsg: TextView
+    lateinit var PI: TextView
 
 
        override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class BmiDetailsActivity : AppCompatActivity() {
             fractBMI = findViewById(R.id.fractional_part_of_BMI)
             userMsg = findViewById(R.id.user_msg)
             rangeMsg = findViewById(R.id.bmiRange)
+            PI = findViewById(R.id.ponderalIndex)
 
             back = findViewById(R.id.back)
             back.setOnClickListener {
@@ -42,6 +44,7 @@ class BmiDetailsActivity : AppCompatActivity() {
             val name:String = intent.getStringExtra("name")
 
             var bmi: Double = weight.toDouble() / ((height.toDouble()/100) * (height.toDouble()/100))
+            var piValue = weight.toDouble() / ((height.toDouble()/100) * (height.toDouble()/100)*(height.toDouble()/100))
             var bmiResult: String = ""
             var bmiRange: String = ""
             when (bmi) {
@@ -78,10 +81,11 @@ class BmiDetailsActivity : AppCompatActivity() {
                     bmiRange ="more than 40.0 kg/m2"
                 }
             }
-            intBMI.text = bmi.toInt().toString()
-            fractBMI.text = "."+((bmi-bmi.toInt())*100).toInt().toString()
-            userMsg.text = getString(R.string.user_msg,name,bmiResult)
-            rangeMsg.text = getString(R.string.bmi_range_msg,bmiResult,bmiRange)
+           intBMI.text = bmi.toInt().toString()
+           fractBMI.text = "."+((bmi-bmi.toInt())*100).toInt().toString()
+           userMsg.text = getString(R.string.user_msg,name,bmiResult)
+           rangeMsg.text = getString(R.string.bmi_range_msg,bmiResult,bmiRange)
+           PI.text = getString(R.string.ponderal_index, String.format("%.2f",piValue))
 
         }
     }
