@@ -123,7 +123,7 @@ class BmiDetailsActivity : AppCompatActivity() {
 
     private fun share(){
         val rootView = window.decorView.findViewById<View>(android.R.id.content)
-        shareImage(store(getScreenShot(rootView), Date().toString()))
+        shareImage(store(getScreenShot(rootView), Date().toString()+".jpg"))
     }
 
     @Suppress("DEPRECATION")
