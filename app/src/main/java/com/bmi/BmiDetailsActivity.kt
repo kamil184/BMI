@@ -15,6 +15,11 @@ import androidx.core.app.ShareCompat
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import hotchemi.android.rate.OnClickButtonListener
+import hotchemi.android.rate.AppRate
+
+
 
 
 
@@ -57,6 +62,17 @@ class BmiDetailsActivity : AppCompatActivity() {
         back.setOnClickListener {
             onBackPressed()
         }
+
+        AppRate.with(this)
+            .setInstallDays(0)
+            .setLaunchTimes(0)
+            .setRemindInterval(0)
+            .setShowLaterButton(true)
+            .setDebug(false)
+            .setOnClickButtonListener { which ->
+                Log.d(MainActivity::class.java.name, which.toString())
+            }
+            .monitor()
 
         val height: Int = intent.getIntExtra("height", 1)
         val weight: Int = intent.getIntExtra("weight", 1)
@@ -117,6 +133,9 @@ class BmiDetailsActivity : AppCompatActivity() {
             if (shareIntent.resolveActivity(packageManager) != null) {
                 startActivity(shareIntent)
             }
+        }
+        rate.setOnClickListener{
+            AppRate.with(this).showRateDialog(this)
         }
     }
 }
