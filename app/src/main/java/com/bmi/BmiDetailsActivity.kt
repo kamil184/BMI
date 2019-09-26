@@ -1,21 +1,25 @@
 package com.bmi
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.widget.TextView
+import android.os.Environment
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import android.R.id.shareText
-import androidx.core.app.ShareCompat
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 
 
 class BmiDetailsActivity : AppCompatActivity() {
@@ -29,6 +33,8 @@ class BmiDetailsActivity : AppCompatActivity() {
     lateinit var rangeMsg: TextView
     lateinit var PI: TextView
     lateinit var mAdView: AdView
+
+    lateinit var shareText: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,20 +108,63 @@ class BmiDetailsActivity : AppCompatActivity() {
                 bmiRange = "more than 40.0 kg/m2"
             }
         }
+        val ponderalIndex = String.format("%.2f", piValue)
         intBMI.text = bmi.toInt().toString()
         fractBMI.text = "." + ((bmi - bmi.toInt()) * 100).toInt().toString()
         userMsg.text = getString(R.string.user_msg, name, bmiResult)
         rangeMsg.text = getString(R.string.bmi_range_msg, bmiResult, bmiRange)
-        PI.text = getString(R.string.ponderal_index, String.format("%.2f", piValue))
+        PI.text = getString(R.string.ponderal_index, ponderalIndex)
 
-        val shareText = "Hello, app BMI"
+        shareText = "BMIapp calculated my BMI, $bmi, and ponderal index: $ponderalIndex! It’s $bmiResult. Try it!"
         share.setOnClickListener {
-            val shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setText(shareText)
-                .intent
-            if (shareIntent.resolveActivity(packageManager) != null) {
-                startActivity(shareIntent)
+            share()
+        }
+    }
+
+    private fun share(){
+        val rootView = window.decorView.findViewById<View>(android.R.id.content)
+        shareImage(store(getScreenShot(rootView), Date().toString()))
+    }
+
+    @Suppress("DEPRECATION")
+    fun getScreenShot(view: View): Bitmap {
+        val screenView = view.rootView
+        screenView.isDrawingCacheEnabled = true
+        val bitmap = Bitmap.createBitmap(screenView.drawingCache)
+        screenView.isDrawingCacheEnabled = false
+        return bitmap
+    }
+
+    fun store(bm: Bitmap, fileName: String):File? {
+        val dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots"
+        val dir = File(dirPath)
+        if (!dir.exists())
+            dir.mkdirs()
+        val file = File(dirPath, fileName)
+        try {
+            val fOut = FileOutputStream(file)
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut)
+            fOut.flush()
+            fOut.close()
+            return file
+        } catch (e: Exception) {
+            return null
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareImage(file: File?) {
+        if(file != null) {
+            val uri = Uri.fromFile(file)
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.type = "image/jpg"
+            intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+            intent.putExtra(Intent.EXTRA_STREAM, uri)
+            try {
+                startActivity(Intent.createChooser(intent, "Share"))
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show()
             }
         }
     }
