@@ -2,6 +2,7 @@ package com.bmi
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -9,6 +10,10 @@ import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
@@ -21,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var heightPicker: NumberPicker
     lateinit var genderPicker: NumberPicker
     lateinit var linearLayout: LinearLayout
+    private lateinit var mInterstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,11 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         setContentView(R.layout.activity_main)
+
+        MobileAds.initialize(this) {}
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         nameEditText = findViewById(R.id.name)
         calculate = findViewById(R.id.calculate)
@@ -60,14 +71,44 @@ class MainActivity : AppCompatActivity() {
 
         calculate.setOnClickListener {
             val name = nameEditText.text.toString()
-            if (name.length != 0) {
+            if (name.isNotEmpty()) {
+                if (mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                } else {
+                    Log.d("CalculateAd", "The interstitial wasn't loaded yet.")
+                    Snackbar.make(linearLayout, "Error", Snackbar.LENGTH_SHORT).show()
+                }
+            }else {Snackbar.make(linearLayout, "Please enter a name", Snackbar.LENGTH_SHORT).show()}
+        }
+
+
+        mInterstitialAd.adListener = object: AdListener() {
+            override fun onAdClicked() {
+                mInterstitialAd.loadAd(AdRequest.Builder().build())
+                val name = nameEditText.text.toString()
                 val intent = Intent(this@MainActivity, BmiDetailsActivity::class.java)
                 intent.putExtra("height", heightPicker.value)
                 intent.putExtra("weight", weightPicker.value)
                 intent.putExtra("gender", genderPicker.value)
                 intent.putExtra("name", name)
                 startActivity(intent)
-            }else {Snackbar.make(linearLayout, "Please enter a name", Snackbar.LENGTH_SHORT).show()}
+                // When the user clicks on an ad.
+            }
+            override fun onAdFailedToLoad(errorCode: Int) {
+                Log.d("AdLoading", "Error loading $errorCode")
+            }
+            override fun onAdClosed() {
+                mInterstitialAd.loadAd(AdRequest.Builder().build())
+                val name = nameEditText.text.toString()
+                val intent = Intent(this@MainActivity, BmiDetailsActivity::class.java)
+                intent.putExtra("height", heightPicker.value)
+                intent.putExtra("weight", weightPicker.value)
+                intent.putExtra("gender", genderPicker.value)
+                intent.putExtra("name", name)
+                startActivity(intent)
+                // when interstitial ad is closed.
+            }
         }
     }
+
 }
