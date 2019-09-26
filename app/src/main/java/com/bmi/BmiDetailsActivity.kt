@@ -1,5 +1,6 @@
 package com.bmi
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,10 +22,13 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 import android.R.id.shareText
+import android.content.pm.PackageManager
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import hotchemi.android.rate.OnClickButtonListener
 import hotchemi.android.rate.AppRate
 
@@ -133,9 +137,13 @@ class BmiDetailsActivity : AppCompatActivity() {
         rangeMsg.text = getString(R.string.bmi_range_msg, bmiResult, bmiRange)
         PI.text = getString(R.string.ponderal_index, ponderalIndex)
 
-        shareText = "BMIapp calculated my BMI, $bmi, and ponderal index: $ponderalIndex! It’s $bmiResult. Try it!"
+        val bmiFormatted = String.format("%.2f",bmi)
+        shareText = "BMIapp calculated my BMI, $bmiFormatted, and ponderal index: $ponderalIndex! It’s $bmiResult. Try it!"
         share.setOnClickListener {
-            share()
+            checkPermissions()
+        }
+        rate.setOnClickListener{
+            AppRate.with(this).showRateDialog(this)
         }
     }
 
@@ -153,8 +161,8 @@ class BmiDetailsActivity : AppCompatActivity() {
         return bitmap
     }
 
-    fun store(bm: Bitmap, fileName: String):File? {
-        val dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots"
+    private fun store(bm: Bitmap, fileName: String):File? {
+        val dirPath = Environment.getExternalStorageDirectory().absolutePath + "/Screenshots"
         val dir = File(dirPath)
         if (!dir.exists())
             dir.mkdirs()
@@ -177,7 +185,7 @@ class BmiDetailsActivity : AppCompatActivity() {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
             intent.type = "image/jpg"
-            intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+            intent.putExtra(Intent.EXTRA_TEXT, shareText)
             intent.putExtra(Intent.EXTRA_STREAM, uri)
             try {
                 startActivity(Intent.createChooser(intent, "Share"))
@@ -185,8 +193,29 @@ class BmiDetailsActivity : AppCompatActivity() {
                 Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show()
             }
         }
-        rate.setOnClickListener{
-            AppRate.with(this).showRateDialog(this)
+
+    }
+
+    private fun checkPermissions(){
+        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+            share()
+        } else {
+            ActivityCompat.requestPermissions(this,  arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                1)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            1 -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    share()
+                } else {
+                    Toast.makeText(this, "You must allow memory access in order to share", Toast.LENGTH_LONG).show()
+                }
+                return
+            }
         }
     }
 }
