@@ -29,6 +29,7 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import hotchemi.android.rate.OnClickButtonListener
 import hotchemi.android.rate.AppRate
 
@@ -138,7 +139,7 @@ class BmiDetailsActivity : AppCompatActivity() {
         PI.text = getString(R.string.ponderal_index, ponderalIndex)
 
         val bmiFormatted = String.format("%.2f",bmi)
-        shareText = "BMIapp calculated my BMI, $bmiFormatted, and ponderal index: $ponderalIndex! It’s $bmiResult. Try it!"
+        shareText = "BMIapp calculated my BMI: $bmiFormatted, and ponderal index: $ponderalIndex! It’s $bmiResult. Try it!"
         share.setOnClickListener {
             checkPermissions()
         }
@@ -181,8 +182,9 @@ class BmiDetailsActivity : AppCompatActivity() {
 
     private fun shareImage(file: File?) {
         if(file != null) {
-            val uri = Uri.fromFile(file)
-            val intent = Intent()
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            val uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file)
             intent.action = Intent.ACTION_SEND
             intent.type = "image/jpg"
             intent.putExtra(Intent.EXTRA_TEXT, shareText)
