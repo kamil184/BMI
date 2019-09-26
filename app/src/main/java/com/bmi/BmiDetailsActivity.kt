@@ -20,6 +20,13 @@ import com.google.android.gms.ads.MobileAds
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import android.R.id.shareText
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import hotchemi.android.rate.OnClickButtonListener
+import hotchemi.android.rate.AppRate
 
 
 class BmiDetailsActivity : AppCompatActivity() {
@@ -63,6 +70,17 @@ class BmiDetailsActivity : AppCompatActivity() {
         back.setOnClickListener {
             onBackPressed()
         }
+
+        AppRate.with(this)
+            .setInstallDays(0)
+            .setLaunchTimes(0)
+            .setRemindInterval(0)
+            .setShowLaterButton(true)
+            .setDebug(false)
+            .setOnClickButtonListener { which ->
+                Log.d(MainActivity::class.java.name, which.toString())
+            }
+            .monitor()
 
         val height: Int = intent.getIntExtra("height", 1)
         val weight: Int = intent.getIntExtra("weight", 1)
@@ -166,6 +184,9 @@ class BmiDetailsActivity : AppCompatActivity() {
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show()
             }
+        }
+        rate.setOnClickListener{
+            AppRate.with(this).showRateDialog(this)
         }
     }
 }
