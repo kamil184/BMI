@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mInterstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
