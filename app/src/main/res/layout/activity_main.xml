@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
         android:text="@string/calculate_your_body_mass_index"
         android:textColor="@android:color/secondary_text_dark_nodisable"
         android:textSize="18sp" />
@@ -77,36 +77,77 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Weight"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Height"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Gender"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="15dp"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardElevation="2dp">
 
-            <NumberPicker
-                android:id="@+id/weight_picker"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:divider="@color/colorAccent"
-                android:theme="@style/MyNumberPickerTheme" />
+                android:orientation="horizontal">
 
-            <NumberPicker
-                android:id="@+id/height_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:theme="@style/MyNumberPickerTheme" />
+                <NumberPicker
+                    android:id="@+id/weight_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:divider="@color/colorAccent"
+                    android:theme="@style/MyNumberPickerTheme" />
 
-            <NumberPicker
-                android:id="@+id/gender_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:theme="@style/MyNumberPickerTheme" />
+                <NumberPicker
+                    android:id="@+id/height_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:theme="@style/MyNumberPickerTheme" />
 
-        </LinearLayout>
+                <NumberPicker
+                    android:id="@+id/gender_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:theme="@style/MyNumberPickerTheme" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <ImageButton
             android:id="@+id/calculate"

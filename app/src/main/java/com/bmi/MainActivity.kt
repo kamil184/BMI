@@ -54,9 +54,11 @@ class MainActivity : AppCompatActivity() {
 
         weightPicker.minValue = 20
         weightPicker.maxValue = 200
+        weightPicker.value = 65
 
         heightPicker.minValue = 50
         heightPicker.maxValue = 250
+        heightPicker.value = 175
 
         val genders = arrayOf("male", "female")
 
